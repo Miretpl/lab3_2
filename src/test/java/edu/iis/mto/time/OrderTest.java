@@ -22,4 +22,11 @@ public class OrderTest {
         order.submit();
         assertThat(order.getOrderState(), is(Order.State.SUBMITTED));
     }
+
+    @Test public void OrderConfirmedState () {
+        order.submit();
+        order.confirm();
+
+        assertThat(order.getOrderState(), is(Order.State.CONFIRMED));
+    }
 }
