@@ -50,4 +50,10 @@ public class OrderTest {
         order.submit();
         assertThrows(OrderExpiredException.class, () ->order.confirm(instant.plus(Duration.standardDays(2))));
     }
+
+    @Test public void OrderCancelledState () {
+        order.submit();
+        assertThrows(OrderExpiredException.class, () ->order.confirm(instant.plus(Duration.standardDays(2))));
+        assertThat(order.getOrderState(), is(Order.State.CANCELLED));
+    }
 }
