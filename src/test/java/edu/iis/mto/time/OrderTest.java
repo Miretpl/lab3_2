@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class OrderTest {
@@ -54,7 +53,7 @@ public class OrderTest {
 
     @Test public void OrderCancelledState () {
         order.submit();
-        assertThrows(OrderExpiredException.class, () ->order.confirm(instant.plus(Duration.standardDays(2))));
+        assertThrows(OrderExpiredException.class, () -> order.confirm(instant.plus(Duration.standardDays(2))));
         assertThat(order.getOrderState(), is(Order.State.CANCELLED));
     }
 
