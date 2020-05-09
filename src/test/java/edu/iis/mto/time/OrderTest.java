@@ -18,7 +18,18 @@ public class OrderTest {
         assertThat(order.getOrderState(), is(Order.State.CREATED));
     }
 
-    @Test public void OrderSubmitedState() {
+    @Test public void OrderCreatedStateWithOneItem() {
+        order.addItem(new OrderItem());
+        assertThat(order.getOrderState(), is(Order.State.CREATED));
+    }
+
+    @Test public void OrderCreatedStateWithAddedItemAfterSubmit() {
+        order.submit();
+        order.addItem(new OrderItem());
+        assertThat(order.getOrderState(), is(Order.State.CREATED));
+    }
+
+    @Test public void OrderSubmittedState() {
         order.submit();
         assertThat(order.getOrderState(), is(Order.State.SUBMITTED));
     }
