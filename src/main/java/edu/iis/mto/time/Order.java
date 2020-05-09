@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.Hours;
+import org.joda.time.Instant;
 
 public class Order {
 
@@ -33,9 +34,9 @@ public class Order {
 
     }
 
-    public void confirm() {
+    public void confirm(Instant instant) {
         requireState(State.SUBMITTED);
-        int hoursElapsedAfterSubmittion = Hours.hoursBetween(subbmitionDate, new DateTime())
+        int hoursElapsedAfterSubmittion = Hours.hoursBetween(subbmitionDate, instant.toDateTime())
                                                .getHours();
         if (hoursElapsedAfterSubmittion > VALID_PERIOD_HOURS) {
             orderState = State.CANCELLED;
