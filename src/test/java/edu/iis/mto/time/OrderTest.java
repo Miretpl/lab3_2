@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class OrderTest {
@@ -62,5 +63,9 @@ public class OrderTest {
         order.confirm(instant);
         order.realize();
         assertThat(order.getOrderState(), is(Order.State.REALIZED));
+    }
+
+    @Test public void OrderThrowOrderStateException () {
+        assertThrows(OrderStateException.class, () -> order.realize());
     }
 }
