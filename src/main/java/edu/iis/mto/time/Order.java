@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.Hours;
-import org.joda.time.Instant;
 
 public class Order {
 
@@ -13,8 +12,10 @@ public class Order {
     private State orderState;
     private List<OrderItem> items = new ArrayList<OrderItem>();
     private DateTime subbmitionDate;
+    private Clock clock;
 
-    public Order() {
+    public Order(Clock clock) {
+        this.clock = clock;
         orderState = State.CREATED;
     }
 
@@ -23,20 +24,18 @@ public class Order {
 
         items.add(item);
         orderState = State.CREATED;
-
     }
 
     public void submit() {
         requireState(State.CREATED);
 
         orderState = State.SUBMITTED;
-        subbmitionDate = new DateTime();
-
+        subbmitionDate = clock.getDateTime();
     }
 
-    public void confirm(Instant instant) {
+    public void confirm() {
         requireState(State.SUBMITTED);
-        int hoursElapsedAfterSubmittion = Hours.hoursBetween(subbmitionDate, instant.toDateTime())
+        int hoursElapsedAfterSubmittion = Hours.hoursBetween(subbmitionDate, clock.getDateTime())
                                                .getHours();
         if (hoursElapsedAfterSubmittion > VALID_PERIOD_HOURS) {
             orderState = State.CANCELLED;
@@ -66,7 +65,6 @@ public class Order {
                                       + allowedStates
                                       + " to perform required  operation, but is in "
                                       + orderState);
-
     }
 
     public enum State {
